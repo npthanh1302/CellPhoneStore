@@ -1,0 +1,11 @@
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\bin\Debug\netcoreapp2.0\CellphoneStoreWebAPI.deps.json
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\bin\Debug\netcoreapp2.0\CellphoneStoreWebAPI.runtimeconfig.json
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\bin\Debug\netcoreapp2.0\CellphoneStoreWebAPI.runtimeconfig.dev.json
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\bin\Debug\netcoreapp2.0\CellphoneStoreWebAPI.dll
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.csprojResolveAssemblyReference.cache
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.csproj.CoreCompileInputs.cache
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.AssemblyInfoInputs.cache
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.AssemblyInfo.cs
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\bin\Debug\netcoreapp2.0\CellphoneStoreWebAPI.pdb
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.dll
+C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStoreWebAPI\obj\Debug\netcoreapp2.0\CellphoneStoreWebAPI.pdb

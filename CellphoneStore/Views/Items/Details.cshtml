@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details @ViewBag.id</h2>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <img src="~/Content/Images/Apple/iphone-4-8gb.jpg" class="center-block img-responsive" />
+        </div>
+        <div class="col-md-4">
+            <h2>Iphone 4</h2>
+            <p>Description Tincidunt integer eu augue augue nunc elit dolor, luctus placerat scelerisque euismod, iaculis eu lacus nunc mi elit, vehicula ut laoreet ac, aliquam sit amet justo nunc tempor, metus </p>
+        </div>
+    </div>
+   
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+@*<script>
+    $(document).ready(function () {
+        var options = {};
+        console.log("ready");
+        options.url = "http://localhost:49403/api/cellphones/" +@ViewBag.id;
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            $("#item").append('<div class="col-sm-6 col-md-4"> <div class="thumbnail"> <img src="' + data.image + '" alt="No Image"> <div class="caption"> <h3>' + data.name + '<//h3> <p>...<//p> <p><a href="/items/details/' + data.itemID + '" class="btn btn-primary" role="button">Details<//a> <a href="#" class="btn btn-default" role="button">Add to Cart<//a><//p><//div><//div><//div>');
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+    });
+</script>*@

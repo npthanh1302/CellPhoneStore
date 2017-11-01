@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewData["Title"] = "Create";
+}'
+
+<h2>Create</h2>
+
+<form>
+    <table border="1" cellpadding="10">
+        <tr>
+            <td>ID :</td>
+            <td>
+                <select id="itemid"></select>
+            </td>
+        </tr>
+        <tr>
+            <td>Name :</td>
+            <td>
+                <input id="name" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>Price :</td>
+            <td>
+                <input id="price" type="number" />
+            </td>
+        </tr>
+        <tr>
+            <td>Descrip :</td>
+            <td>
+                <input id="des" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td>Image :</td>
+            <td>
+                <input id="image" type="text" />
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="button" id="insert" value="Insert" />
+                <input type="button" id="update" value="Update" />
+                <input type="button" id="delete" value="Delete" />
+            </td>
+        </tr>
+    </table>
+    <br />
+    <div id="msg"></div>
+</form>
+
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function () {
+        var options = {};
+        options.url = "http://localhost:49403/api/cellphones";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (element) {
+                $("#itemid").append("<option>" + element.itemID + "</option>");
+            });
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options);
+
+
+        $("#itemid").change(function () {
+            var options = {};
+            options.url = "http://localhost:49403/api/cellphones/" + $("#itemid").val();
+            options.type = "GET";
+            options.dataType = "json";
+            options.success = function (data) {
+                $("#name").val(data.name);
+                $("#price").val(data.price);
+                $("#des").val(data.description);
+                $("#image").val(data.image);
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+        $("#insert").click(function () {
+            var options = {};
+            options.url = "http://localhost:49403/api/cellphones";
+            options.type = "POST";
+
+            var obj = {};
+            obj.name = $("#name").val();
+            obj.price = $("#price").val();
+            obj.description = $("#des").val();
+            obj.image = $("#image").val();
+
+            options.data = JSON.stringify(obj);
+            options.contentType = "application/json";
+            options.dataType = "html";
+
+            options.success = function (msg) {
+                $("#msg").html(msg);
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+        $("#update").click(function () {
+            var options = {};
+            options.url = "http://localhost:49403/api/cellphones/"
+               + $("#itemid").val();
+            options.type = "PUT";
+
+            var obj = {};
+            obj.itemID = $("#itemid").val();
+            obj.name = $("#name").val();
+            obj.price = $("#price").val();
+            obj.description = $("#des").val();
+            obj.image = $("#image").val();
+
+            options.data = JSON.stringify(obj);
+            options.contentType = "application/json";
+            options.dataType = "html";
+            options.success = function (msg) {
+                $("#msg").html(msg);
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+        $("#delete").click(function () {
+            var options = {};
+            options.url = "http://localhost:49403/api/cellphones/" + $("#itemid").val();
+            options.type = "DELETE";
+            options.dataType = "html";
+            options.success = function (msg) {
+                $("#msg").html(msg);
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        });
+
+
+    });
+</script>
