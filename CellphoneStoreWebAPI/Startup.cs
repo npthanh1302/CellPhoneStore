@@ -11,6 +11,7 @@ using Microsoft.Extensions.Options;
 using CellphoneStoreWebAPI.Models;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace CellphoneStoreWebAPI
 {
     public class Startup
@@ -28,9 +29,8 @@ namespace CellphoneStoreWebAPI
             services.AddCors();
             services.AddMvc();
             services.AddEntityFrameworkSqlServer();
-            services.AddDbContext<CellphoneDbContext>(options => options.UseSqlServer(
-                Configuration.GetConnectionString("DefaultConnection")));
-
+            services.AddDbContext<CellphoneDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +42,8 @@ namespace CellphoneStoreWebAPI
             }
             app.UseCors(options => options.WithOrigins("http://localhost:49387").AllowAnyMethod().AllowAnyHeader());
             app.UseMvc();
+            
+
         }
     }
 }

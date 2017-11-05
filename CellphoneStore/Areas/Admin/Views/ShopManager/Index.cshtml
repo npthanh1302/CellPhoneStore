@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "Store Manager";
+}
+@section Styles{
+    <link href="~/css/Admin.css" rel="stylesheet" />
+}
+<h2>Index</h2>
+<div>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs" role="tablist">
+        <li role="presentation" class="active"><a href="#item" aria-controls="home" role="tab" data-toggle="tab">Items</a></li>
+        <li role="presentation" ><a href="#brand" aria-controls="profile" role="tab" data-toggle="tab">Brand</a></li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div role="tabpanel" class="tab-pane fade active in" id="item">
+            <table class="table table-hover table-responsive" id="itemList">
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>
+                    <th>Price</th>
+                    <th>Action</th>
+                </tr>               
+            </table>
+        </div>
+        <div role="tabpanel" class="tab-pane fade" id="brand">
+            <table class="table table-hover table-responsive" id="brandList">
+                <tr>
+                    <th>#</th>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Description</th>                   
+                    <th>Action</th>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+</div>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            var options = {};
+            options.url = "http://localhost:49403/api/items";
+            options.type = "GET";
+            options.dataType = "json";
+            options.success = function (data) {
+                var count = 1;
+                data.forEach(function (element) {
+                    $("#itemList").append('<tr><td>' + count + '</td><td><img class="thumbnail thumbnail-row" src="' + element.image + '"/></td><td>' + element.name + '</td><td>' + element.description + '</td><td>' + element.price + '</td><td><a class="btn btn-success btn-block" href="#" role="button">Edit</a><a class="btn btn-info btn-block" href="shopmanager/details/'+ element.itemID + '" role="button">Detail</a><a class="btn btn-danger btn-block" href="#" role="button">Delete</a></td></tr>');
+                count++;
+                });
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+
+            options.url = "http://localhost:49403/api/brands";
+            options.type = "GET";
+            options.dataType = "json";
+            options.success = function (data) {
+                var count = 1;
+                data.forEach(function (element) {
+                    $("#brandList").append('<tr><td>'+count+'</td><td><img class="thumbnail thumbnail-row" src="'+element.imageLogo+'"/></td><td>'+element.name+'</td><td>'+element.info+'</td><td><a class="btn btn-success btn-block" href="#" role="button">Edit</a><a class="btn btn-info btn-block" href="#" role="button">Detail</a><a class="btn btn-danger btn-block" href="#" role="button">Delete</a></td></tr>');
+                    count++;
+                });
+            };
+            options.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        
+        });
+    </script>
+
+}

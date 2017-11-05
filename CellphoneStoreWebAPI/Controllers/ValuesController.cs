@@ -17,11 +17,17 @@ namespace CellphoneStoreWebAPI.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("{id?}")]
+        public string Get(string id, string query, string name)
         {
-            return "value";
+            return $"value123 {id} query = {query} name = {name}";
         }
+        [HttpGet("{id}")]
+        public string abc(string id)
+        {
+            return id;
+        }
+
 
         // POST api/values
         [HttpPost]

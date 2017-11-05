@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27004.2002
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellphoneStore", "CellphoneStore\CellphoneStore.csproj", "{4D7C6DBB-E39A-4B54-A7CE-8BC516BF5BDB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CellphoneStore", "CellphoneStore\CellphoneStore.csproj", "{4D7C6DBB-E39A-4B54-A7CE-8BC516BF5BDB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CellphoneStoreWebAPI", "CellphoneStoreWebAPI\CellphoneStoreWebAPI.csproj", "{38AE5E65-5745-411C-AC2D-C7AE7539C822}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CellphoneStoreWebAPI", "CellphoneStoreWebAPI\CellphoneStoreWebAPI.csproj", "{38AE5E65-5745-411C-AC2D-C7AE7539C822}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

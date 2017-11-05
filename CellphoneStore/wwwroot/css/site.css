@@ -2,12 +2,18 @@
     padding-top: 50px;
     padding-bottom: 20px;
 }
-.navbar-brand {
-    font-family: 'Lobster Two', cursive;
-    font-style:italic;
-    font-weight: 700;
+.jumbotron{
+    background-image:url("../images/Dark-Titanium-Banner.png");
+    color: white;
+    text-align:end;
+}
+.container {
+    background-color: rgba(0, 0, 0, 0.01);
 }
 
+.container-modified{
+    max-height:300px;
+}
 /* Wrapping element */
 /* Set some basic padding to keep content from hitting the edges */
 .body-content {
@@ -15,16 +21,9 @@
     padding-right: 15px;
 }
 
-/* Carousel */
-.carousel-caption p {
-    font-size: 20px;
-    line-height: 1.4;
-}
 
-/* Make .svg files in the carousel display properly in older browsers */
-.carousel-inner .item img[src$=".svg"] {
-    width: 100%;
-}
+
+
 
 /* QR code generator */
 #qrCode {
@@ -46,117 +45,48 @@
 .navbar-right{
     margin-right:0px;
 }
-.container {
-    background-color: rgba(0, 0, 0, 0.01);
+.navbar-brand {
+    font-family: 'Lobster Two', cursive;
+    font-style: italic;
+    font-weight: 700;
+}
+
+/*Size of Items in Slick Carousel*/
+.thumbnail-modified {
+    max-width: 200px;
+    height: 450px;
+    overflow: auto;
 }
 
 
-.carousel-showsixmoveone .carousel-control {
-    width: 4%;
-    background-image: none;
+/*Slick carousel option*/ 
+.slick-slide {
+    margin: 0px 20px;
+}
+.slick-slide img {
+    width: 100%;
 }
 
-    .carousel-showsixmoveone .carousel-control.left {
-        margin-left: 15px;
-    }
-
-    .carousel-showsixmoveone .carousel-control.right {
-        margin-right: 15px;
-    }
-
-.carousel-showsixmoveone .cloneditem-1,
-.carousel-showsixmoveone .cloneditem-2,
-.carousel-showsixmoveone .cloneditem-3,
-.carousel-showsixmoveone .cloneditem-4,
-.carousel-showsixmoveone .cloneditem-5 {
-    display: none;
+.slick-prev:before, .slick-next:before {
+    color: black;
 }
 
-@media all and (min-width: 768px) {
-    .carousel-showsixmoveone .carousel-inner > .active.left,
-    .carousel-showsixmoveone .carousel-inner > .prev {
-        left: -33.333%;
-    }
 
-    .carousel-showsixmoveone .carousel-inner > .active.right,
-    .carousel-showsixmoveone .carousel-inner > .next {
-        left: 33.333%;
-    }
-
-    .carousel-showsixmoveone .carousel-inner > .left,
-    .carousel-showsixmoveone .carousel-inner > .prev.right,
-    .carousel-showsixmoveone .carousel-inner > .active {
-        left: 0;
-    }
-
-    .carousel-showsixmoveone .carousel-inner .cloneditem-1,
-    .carousel-showsixmoveone .carousel-inner .cloneditem-2 {
-        display: block;
-    }
+.slick-slide {
+    transition: all ease-in-out .3s;
+    opacity: 1;
 }
 
-@media all and (min-width: 768px) and (transform-3d), all and (min-width: 768px) and (-webkit-transform-3d) {
-    .carousel-showsixmoveone .carousel-inner > .item.active.right,
-    .carousel-showsixmoveone .carousel-inner > .item.next {
-        transform: translate3d(33.333%, 0, 0);
-        left: 0;
-    }
-
-    .carousel-showsixmoveone .carousel-inner > .item.active.left,
-    .carousel-showsixmoveone .carousel-inner > .item.prev {
-        transform: translate3d(-33.333%, 0, 0);
-        left: 0;
-    }
-
-        .carousel-showsixmoveone .carousel-inner > .item.left,
-        .carousel-showsixmoveone .carousel-inner > .item.prev.right,
-        .carousel-showsixmoveone .carousel-inner > .item.active {
-            transform: translate3d(0, 0, 0);
-            left: 0;
-        }
+.slick-active {
+    opacity: 1;
 }
 
-@media all and (min-width: 992px) {
-    .carousel-showsixmoveone .carousel-inner > .active.left,
-    .carousel-showsixmoveone .carousel-inner > .prev {
-        left: -16.666%;
-    }
-
-    .carousel-showsixmoveone .carousel-inner > .active.right,
-    .carousel-showsixmoveone .carousel-inner > .next {
-        left: 16.666%;
-    }
-
-    .carousel-showsixmoveone .carousel-inner > .left,
-    .carousel-showsixmoveone .carousel-inner > .prev.right,
-    .carousel-showsixmoveone .carousel-inner > .active {
-        left: 0;
-    }
-
-    .carousel-showsixmoveone .carousel-inner .cloneditem-3,
-    .carousel-showsixmoveone .carousel-inner .cloneditem-4,
-    .carousel-showsixmoveone .carousel-inner .cloneditem-5 {
-        display: block;
-    }
+.slick-current {
+    opacity: 1;
 }
 
-@media all and (min-width: 992px) and (transform-3d), all and (min-width: 992px) and (-webkit-transform-3d) {
-    .carousel-showsixmoveone .carousel-inner > .item.active.right,
-    .carousel-showsixmoveone .carousel-inner > .item.next {
-        transform: translate3d(16.666%, 0, 0);
-        left: 0;
-    }
-
-    .carousel-showsixmoveone .carousel-inner > .item.active.left,
-    .carousel-showsixmoveone .carousel-inner > .item.prev {
-        transform: translate3d(-16.666%, 0, 0);
-        left: 0;
-    }
-
-        .carousel-showsixmoveone .carousel-inner > .item.left,
-        .carousel-showsixmoveone .carousel-inner > .item.prev.right,
-        .carousel-showsixmoveone .carousel-inner > .item.active {
-            transform: translate3d(0, 0, 0);
-            left: 0;
-        }
+hr {
+    height: 3px;
+    border: 0;
+    box-shadow: 0 3px 3px -3px #8c8b8b inset;
 }
