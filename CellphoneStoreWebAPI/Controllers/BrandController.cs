@@ -13,7 +13,7 @@ namespace CellphoneStoreWebAPI.Controllers
     public class BrandController : Controller
     {
 
-        // GET api/values
+        // GET api/Brands
 
         private CellphoneDbContext db;
 
@@ -27,7 +27,7 @@ namespace CellphoneStoreWebAPI.Controllers
             return db.Brands.ToList();
         }
 
-        // GET api/values/5
+        // GET api/Brands/5
         [HttpGet("{id}")]
         public Brand Get(int id)
         {
@@ -35,41 +35,38 @@ namespace CellphoneStoreWebAPI.Controllers
         }
 
 
-        //// POST api/values
-        //[HttpPost]
-        //public IActionResult Post([FromBody]Brand obj)
-        //{
+        // POST api/Brands
+        [HttpPost]
+        public IActionResult Post([FromBody]Brand obj)
+        {
+                db.Brands.Add(obj);
+                db.SaveChanges();
+            return new ObjectResult("Employee added successfully!");
+        }
 
-        //    db.Brands.Add(obj);
-        //    db.SaveChanges();
+        // PUT api/Brands/5
+        [HttpPut("{id}")]
+        public IActionResult Put(int id, [FromBody]Brand obj)
+        {
 
-        //    return new ObjectResult("Employee added successfully!");
+            db.Entry<Brand>(obj).State = EntityState.Modified;
+            db.SaveChanges();
 
-        //}
+            return new ObjectResult("Employee modified successfully!");
 
-        //// PUT api/values/5
-        //[HttpPut("{id}")]
-        //public IActionResult Put(int id, [FromBody]Brand obj)
-        //{
+        }
 
-        //    db.Entry<Brand>(obj).State = EntityState.Modified;
-        //    db.SaveChanges();
+        // DELETE api/Brands/5
+        [HttpDelete("{id}")]
+        public IActionResult Delete(int id)
+        {
 
-        //    return new ObjectResult("Employee modified successfully!");
+            db.Brands.Remove(db.Brands.Find(id));
+            db.SaveChanges();
 
-        //}
+            return new ObjectResult("Employee deleted successfully!");
 
-        //// DELETE api/values/5
-        //[HttpDelete("{id}")]
-        //public IActionResult Delete(int id)
-        //{
-
-        //    db.Brands.Remove(db.Brands.Find(id));
-        //    db.SaveChanges();
-
-        //    return new ObjectResult("Employee deleted successfully!");
-
-        //}
+        }
     }
     
 }

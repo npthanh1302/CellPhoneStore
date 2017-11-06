@@ -22,8 +22,13 @@ namespace CellphoneStore.Areas.Admin.Controllers
             return View();
         }
 
-        // GET: ShopManager/Create
-        public ActionResult Create()
+        // GET: ShopManager/CreateItem
+        public ActionResult CreateItem()
+        {
+            return View();
+        }
+        // GET: ShopManager/CreateBrand
+        public ActionResult CreateBrand()
         {
             return View();
         }
