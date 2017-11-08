@@ -3,9 +3,7 @@
     ViewData["Title"] = "Details";
 }
 
-<h2 id="brand">
-    
-</h2>
+
 <div id="item">
 
 </div>
@@ -48,27 +46,11 @@
             item.dataType = "json";
             item.success = function (data) {
                 $("#item").append('<div class="row"><div class="col-md-8"><img src="' + data.image + '" class="center-block img-responsive" /></div><div class="col-md-4"><h2>' + data.name + '</h2><hr /><div class="container-modified"><p>' + data.description + '</p></div><h3>Price : ' + data.price + ' USD</h3><div class="row"><div class="col-md-4"><input type="number" class="form-control" min="0" max="10" value="0"></div><div class="col-md-6"><a class="btn btn-primary" href="#">Add to Cart</a></div></div></div></div><hr /><div>' + data.detailedDescription + '</div>');
-                $("#brand").append('<a id="brandname" href="/Brand/Details/' + data.manufacturerID + '"></a>');
-                AddBrand(data);
             };
             item.error = function () {
                 $("#msg").html("Error while calling the Web API!");
             };
             $.ajax(item);
-
-            function AddBrand(data) {
-                var brand = {};
-                brand.url = "http://localhost:49403/api/brands/" + data.manufacturerID;
-                brand.type = "GET";
-                brand.dataType = "json";
-                brand.success = function (data) {
-                    $("#brandname").append(data.name);
-                };
-                brand.error = function () {
-                    $("#msg").html("Error while calling the Web API!");
-                };
-                $.ajax(brand);
-            }
     });
     </script>
 }

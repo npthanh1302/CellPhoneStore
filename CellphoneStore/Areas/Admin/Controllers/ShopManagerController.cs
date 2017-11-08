@@ -19,6 +19,7 @@ namespace CellphoneStore.Areas.Admin.Controllers
         // GET: ShopManager/Details/5
         public ActionResult Details(int id)
         {
+            ViewBag.id = id;
             return View();
         }
 
@@ -33,26 +34,10 @@ namespace CellphoneStore.Areas.Admin.Controllers
             return View();
         }
 
-        //// POST: ShopManager/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
         // GET: ShopManager/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult EditItem(int id)
         {
+            ViewBag.id = id;
             return View();
         }
 

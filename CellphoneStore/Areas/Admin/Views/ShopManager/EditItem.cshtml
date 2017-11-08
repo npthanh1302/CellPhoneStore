@@ -1,12 +1,12 @@
 ﻿
 @{
-    ViewData["Title"] = "CreateItem";
+    ViewData["Title"] = "Edit";
 }
 @section Styles{
     <link href="~/css/Admin.css" rel="stylesheet" />
 }
 
-<h2>CreateItem</h2>
+<h2>Edit Item</h2>
 
 <form>
     <table class="table table-responsive">
@@ -31,15 +31,13 @@
         <tr>
             <td>Manufacturer :</td>
             <td>
-                <select id="manufacturer" class="form-control">
-
-                </select>
+                <select id="manufacturer" class="form-control"></select>
             </td>
         </tr>
         <tr>
             <td>Description :</td>
             <td>
-                <textarea  id="description" class="form-control" rows="4"></textarea>
+                <textarea id="description" class="form-control" rows="4"></textarea>
             </td>
         </tr>
         <tr>
@@ -58,7 +56,7 @@
         </tr>
         <tr>
             <td colspan="2" class="text-left">
-                <a class="btn btn-primary pull-right Rmargin" id="create">Create</a>
+                <a class="btn btn-primary pull-right Rmargin" id="edit">Confirm</a>
                 <a class="btn btn-primary pull-right" id="back">Back</a>
 
             </td>
@@ -74,7 +72,7 @@
                 <h4 class="modal-title">Alert!!!</h4>
             </div>
             <div class="modal-body">
-                
+
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -112,14 +110,14 @@
 
 
         $(document).ready(function () {
-            //Load data to Manufacturer select box
+
             var brand = {};
             brand.url = "http://localhost:49403/api/brands";
             brand.type = "GET";
             brand.dataType = "json";
             brand.success = function (data) {
                 data.forEach(function (element) {
-                    $("#manufacturer").append('<option value="' + element.manufacturerID+'">'+element.name +'</option>');
+                    $("#manufacturer").append('<option value="' + element.manufacturerID + '">' + element.name + '</option>');
                 });
             };
             brand.error = function () {
@@ -127,20 +125,40 @@
             };
             $.ajax(brand);
 
+            //Load data to Manufacturer select box
+            var item = {};
+            item.url = "http://localhost:49403/api/Items/" + @ViewBag.id;
+            item.type = "GET";
+            item.dataType = "json";
+            item.success = function (data) {  
+                $('#name').val(data.name);
+                $('#price').val(data.price);
+                $('#quantity').val(data.currentQuantity);
+                $('#manufacturer').val(data.manufacturerID);
+                $('#description').val(data.description);
+                $('#detailedDescription').val(data.detailedDescription);
+                $('#imageurl').val(data.image);
+            };
+            item.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(item);
+
             CKEDITOR.replace('detailedDescription');
-            
-            $("#create").click(function () {
+
+            $("#edit").click(function () {
                 var options = {};
-                options.url = "http://localhost:49403/api/Items";
-                options.type = "POST";
+                options.url = "http://localhost:49403/api/Items/" + @ViewBag.id;
+                options.type = "PUT";
 
                 var obj = {};
+                obj.itemID = @ViewBag.id;
                 obj.name = $("#name").val();
                 obj.price = $("#price").val();
                 obj.currentQuantity = $("#quantity").val();
                 obj.manufacturerID = $("#manufacturer").val();
                 obj.description = $("#description").val();
-                obj.detailedDescription = CKEDITOR.instances.detailedDescription.getData();;
+                obj.detailedDescription = CKEDITOR.instances.detailedDescription.getData();
                 obj.image = $("#imageurl").val();
 
                 options.data = JSON.stringify(obj);
@@ -148,15 +166,17 @@
                 options.dataType = "html";
 
                 options.success = function (msg) {
-                    $('.modal-body').append('<p>Creating item succeeded</p>');
+                    $('.modal-body').empty();
+                    $('.modal-body').append('<p>Item edited</p>');
                     $('.modal').modal('toggle');
-                    
+
                     $('.modal').on('hidden.bs.modal', function (e) {
                         window.location.href = '/admin/shopmanager';
                     })
                 };
                 options.error = function () {
-                    $('.modal-body').append('<p>Creating item failed</p>');
+                    $('.modal-body').empty();
+                    $('.modal-body').append('<p>Item failed to edit</p>');
                     $('.modal').modal('toggle');
                 };
                 $.ajax(options);
@@ -165,5 +185,3 @@
         });
     </script>
 }
-
-

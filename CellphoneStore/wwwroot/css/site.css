@@ -38,7 +38,7 @@
     }
 }
 
-.row {
+#ItemsList {
     display: flex;
     flex-wrap: wrap;
 }
@@ -54,7 +54,7 @@
 /*Size of Items in Slick Carousel*/
 .thumbnail-modified {
     max-width: 200px;
-    height: 310px;
+    height: 350px;
     overflow: auto;
 }
 

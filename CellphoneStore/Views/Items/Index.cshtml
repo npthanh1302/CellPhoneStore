@@ -4,30 +4,94 @@
 }
 
 <h1>Items</h1>
-<div id="ItemsList" class="row">
-  
+<div  class="row">
+  <div  class="col-sm-2">
+    <div class="list-group" id="brandList">
+        <a href="#" class="list-group-item" onclick="brandLoad(0)">All Items</a>
+    </div>
+  </div>
+  <div  class="col-sm-10">
+      <div class="row" id="ItemsList">
+
+      </div>
+  </div>
 </div>
 
 
 @section Scripts{ 
 <script>
-    $(document).ready(function () {
-        var options = {};
-        options.url = "http://localhost:49403/api/items";
-        options.type = "GET";
-        options.dataType = "json";
-        options.success = function (data) {
-            data.forEach(function (element) {
-                $("#ItemsList").append('<div class="col-sm-6 col-md-3"> <div class="thumbnail"> <img src="' + element.image + '" alt="No Image"> <div class="caption text-center"> <h3>' + element.name + '<//h3> <p>' + element.price + '<//p> <p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details<//a> <a href="#" class="btn btn-default" role="button">Add to Cart<//a><//p><//div><//div><//div>');
-            });
+    function increaseOne(itemID, itemName, itemPrice, itemArray) {
+        var found = false;
+        for (var i = 0; i < itemArray.length; i++) {
+            if (itemArray[i].id === itemID) {
+                itemArray[i].quantity += 1;
+                found = true;
+                break;
+            }
+        }
+        if (found === false)
+            itemArray.push({ id: itemID, name: itemName, price: itemPrice, quantity: 1 });
+        localStorage.setItem("cart", JSON.stringify(itemArray));
+    }
+
+    var cart = JSON.parse(localStorage.getItem("cart"));
+    if (!cart) {
+        cart = [];
+    }
+
+
+    //function addItemToCart(id) {
+    //    cart.push({"item": id, "quantity": 1});
+        
+    //    //var jsonStr = JSON.stringify(cart);
+    //    //sessionStorage.setItem("cart", jsonStr);
+    //    // now the cart is {"item":"Product 1","price":35.50,"qty":2}
+    //    //var cartValue = sessionStorage.getItem("cart");
+    //    //var cartObj = JSON.parse(cartValue);
+
+    //};
+   
+    function brandLoad(id) {
+        
+        $("#ItemsList").empty();
+        var item = {};
+        item.url = "http://localhost:49403/api/items?brandid=" +id;
+        item.type = "GET";
+        item.dataType = "json";
+        item.success = function (data) {
+            if (!$.trim(data)) {
+                $("#ItemsList").append('<h4>No items found.</h4>');
+            }
+            else {
+                data.forEach(function (element) {
+                    $("#ItemsList").append('<div class="col-sm-6 col-md-3"> <div class="thumbnail"> <img src="' + element.image + '" alt="No Image"> <div class="caption text-center"> <h3>' + element.name + '</h3> <p>' + element.price + '</p> <p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details</a> <button class="btn btn-default" onclick="increaseOne(' + element.itemID + ',\'' + element.name + '\','+ element.price + ',cart)">Add to Cart</button></p></div></div></div>');
+                });
+            }
         };
-        options.error = function () {
+        item.error = function () {
             $("#msg").html("Error while calling the Web API!");
         };
-        $.ajax(options);
+        $.ajax(item);
+      
+    };
+    $(document).ready(function () {
+        brandLoad(0);
+
+        var brand = {};
+        brand.url = "http://localhost:49403/api/brands";
+        brand.type = "GET";
+        brand.dataType = "json";
+        brand.success = function (data) {
+                data.forEach(function (element) {
+                    $("#brandList").append('<button type="button" class="list-group-item" onclick="brandLoad(' + element.manufacturerID + ')">' + element.name + '</button>');
+                });
+        };
+        brand.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(brand);
     });
 </script>
-
 }
 
 
