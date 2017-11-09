@@ -30,6 +30,7 @@ namespace CellphoneStoreWebAPI
             services.AddMvc();
             services.AddEntityFrameworkSqlServer();
             services.AddDbContext<CellphoneDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             
         }
 

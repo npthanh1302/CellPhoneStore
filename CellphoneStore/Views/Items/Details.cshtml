@@ -36,22 +36,33 @@
 
 
 
-@section Scripts{ 
-    <script>
-        $(document).ready(function () {
-            var item = {}; 
-            var id;
-            item.url = "http://localhost:49403/api/items/" +@ViewBag.id;
-            item.type = "GET";
-            item.dataType = "json";
-            item.success = function (data) {
-                $("#item").append('<div class="row"><div class="col-md-8"><img src="' + data.image + '" class="center-block img-responsive" /></div><div class="col-md-4"><h2>' + data.name + '</h2><hr /><div class="container-modified"><p>' + data.description + '</p></div><h3>Price : ' + data.price + ' USD</h3><div class="row"><div class="col-md-4"><input type="number" class="form-control" min="0" max="10" value="0"></div><div class="col-md-6"><a class="btn btn-primary" href="#">Add to Cart</a></div></div></div></div><hr /><div>' + data.detailedDescription + '</div>');
-            };
-            item.error = function () {
-                $("#msg").html("Error while calling the Web API!");
-            };
-            $.ajax(item);
+@section Scripts{
+<script src="~/js/ShoppingCart.js" type="text/javascript"></script>
+<script>
+    function addItem(itemId, itemName, itemPrice) {
+        cart.increaseItemByQuantity(itemId, itemName, itemPrice, Number($("input[type='number']").val()));
+    };
+    
+    
+
+    $(document).ready(function () {
+        cart.loadFromLocalStorage();
+
+        var item = {}; 
+        var id;
+        item.url = "http://localhost:49403/api/items/" +@ViewBag.id;
+        item.type = "GET";
+        item.dataType = "json";
+        item.success = function (data) {
+            $("#item").append('<div class="row"><div class="col-md-8"><img src="' + data.image + '" class="center-block img-responsive" /></div><div class="col-md-4"><h2>' + data.name + '</h2><hr /><div class="container-modified"><p>' + data.description + '</p></div><h3>Price : ' + data.price + ' USD</h3><div class="row"><div class="col-md-4"><input type="number" class="form-control" min="1" max="10" value="1"></div><div class="col-md-6"><button class="btn btn-primary" onclick="addItem(' + data.itemID + ',\'' + data.name + '\',' + data.price +')" >Add to Cart</button></div></div></div></div><hr /><div>' + data.detailedDescription + '</div>');
+        };
+        item.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(item);
+
+        cart.updateBadge();
     });
-    </script>
+</script>
 }
 

@@ -8,64 +8,31 @@
 
 </div>
 
-@*<table class="table table-hover">
-    <tr>
-        <th>#</th>
-        <th>Name</th>
-        <th>Price</th>
-        <th>Quantity</th>
-        <th></th>
-    </tr>
-</table>*@
-@section Scripts{ 
-    <script>
-        function decreaseOneItem(itemID, itemArray) {
-            var deleteIndex = -1;
-            for (var i = 0; i < itemArray.length; i++) {
-                if (itemArray[i].id === itemID) {
-                    itemArray[i].quantity -= 1;
-                    itemArray[i].quantity === 0 ? deleteIndex = i : deleteIndex = -1;
-                    break;
-                }
-            }
-            if (deleteIndex !== -1)
-                itemArray.splice(deleteIndex, 1);
-            localStorage.setItem("cart", JSON.stringify(itemArray));
-            $('#cartContent').empty();
-            cart.loadCartList();
+
+@section Scripts{
+<script src="~/js/ShoppingCart.js" type="text/javascript"></script>
+<script>
+    function loadCartList() {
+        $('#cartContent').empty();
+        if (!cart.data ||cart.data.length === 0) {
+            $('#cartContent').append('<h4 class="text-center">No item in your shopping cart!</h4>');
         }
-        var cart = {};
-        cart.loadCartList = function () { 
-            cart.data = JSON.parse(localStorage.getItem("cart"));
-            if (!cart.data || cart.data.length ===0) {
-                $('#cartContent').append('<h4 class="text-center">No item in your shopping cart!</h4>');
-            }
-            else {
-                
-                $("#cartContent").append('<table id="cartList" class="table table-hover"><tr><th>Name</th><th>Price(each)</th><th>Quantity</th><th></th></tr></table>');
-                var total = 0;
-                cart.data.forEach(function (element) {
-                    $("#cartList").append('<tr><td>' + element.name + '</td><td>' + element.price + '</td><td>' + element.quantity + '</td><td><button class="btn btn-danger" onclick="decreaseOneItem(' + element.id +',cart.data)">Remove from cart</button></td></tr>');
-                    total = total + (element.price * element.quantity);
-                });
+        else {
+            $("#cartContent").append('<table id="cartList" class="table table-hover"><tr><th>Name</th><th>Price(each)</th><th>Quantity</th><th></th></tr></table>');
+            var total = 0;
+            cart.data.forEach(function (element) {
+                $("#cartList").append('<tr><td>' + element.name + '</td><td>' + element.price + '</td><td>' + element.quantity + '</td><td><button class="btn btn-danger" onclick="cart.deleteItemByOne(' + element.id + ', loadCartList)">Remove from cart</button></td></tr>');
+                total = total + (element.price * element.quantity);
+            });
 
-                $("#cartList").append('<tr><td>Total:</td><td></td><td></td><td>' + total + '</td></tr>');
-            }
-            
+            $("#cartList").append('<tr><td>Total:</td><td></td><td></td><td>' + total + '</td></tr>');            
         };
-        
-        cart.loadCartList();
+    }
+    
+    cart.loadFromLocalStorage();
+    loadCartList();
+    cart.updateBadge();
 
-
-        //function loadCartList1(cart) {
-
-        //};
-        //var cart = JSON.parse(localStorage.getItem("cart"));
-        //if (!cart) {
-        //    $('#cartList').append('<h4 class="text-center">No item in your shopping cart!</h4>');
-        //}
-
-
-    </script>
+</script>
 }
 
