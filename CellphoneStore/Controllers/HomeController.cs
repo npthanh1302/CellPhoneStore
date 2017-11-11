@@ -15,7 +15,7 @@ namespace CellphoneStore.Controllers
             return View();
         }
 
-        public IActionResult About()
+        public IActionResult Contact()
         {
             ViewData["Message"] = "Your application description page.";
 

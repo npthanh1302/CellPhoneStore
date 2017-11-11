@@ -37,7 +37,7 @@
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Items" asp-action="Index">Store</a></li>
-                    <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
+                    <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     <li><a asp-area="" asp-controller="Account" asp-action="Login"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
@@ -54,6 +54,14 @@
 
         <hr />
         <footer>
+           
+            <div>
+
+                @*Hình tư vấn viên chat*@
+                @*<img src="~/Content/images/tuVanChat.png" id="go_chat" width="201" height="169" style="margin-bottom:1px" />*@
+                @*------------Chat subiz----------------*@
+                <script type='text/javascript'> window._sbzq || function (e) { e._sbzq = []; var t = e._sbzq; t.push(["_setAccount", 45200]); var n = e.location.protocol == "https:" ? "https:" : "http:"; var r = document.createElement("script"); r.type = "text/javascript"; r.async = true; r.src = n + "//static.subiz.com/public/js/loader.js"; var i = document.getElementsByTagName("script")[0]; i.parentNode.insertBefore(r, i) }(window);</script>
+            </div>
                 <p class="text-center">&copy; 2017 - CellphoneStore</p>
         </footer>
     </div>
@@ -82,5 +90,6 @@
 
     @RenderSection("Scripts", required: false)
 
+   
 </body>
 </html>
