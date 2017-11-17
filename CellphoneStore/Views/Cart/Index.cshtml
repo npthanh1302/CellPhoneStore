@@ -5,7 +5,7 @@
 
 <h2>Your Cart List</h2>
 <div id="cartContent">
-
+    @*<td class="left pull-left" ></td>*@
 </div>
 
 
@@ -15,7 +15,7 @@
     function loadCartList() {
         $('#cartContent').empty();
         if (!cart.data ||cart.data.length === 0) {
-            $('#cartContent').append('<h4 class="text-center">No item in your shopping cart!</h4>');
+            $('#cartContent').append('<div class="alert alert-danger text-center" role="alert" style="font-size:medium">No item in your shopping cart!</div>');
         }
         else {
             $("#cartContent").append('<table id="cartList" class="table table-hover"><tr><th>Name</th><th>Price(each)</th><th>Quantity</th><th></th></tr></table>');
@@ -25,14 +25,11 @@
                 total = total + (element.price * element.quantity);
             });
 
-            $("#cartList").append('<tr><td>Total:</td><td></td><td></td><td>' + total + '</td></tr>');            
+            $("#cartList").append('<tr class="totalprice"><td>Total:</td><td></td><td></td><td>' + total + '</td></tr><tr><td colspan="3"></td><td><a href="/Cart/CheckOut" class="btn btn-primary">Check out</a></td></tr>');            
         };
     }
-    
-    cart.loadFromLocalStorage();
-    loadCartList();
-    cart.updateBadge();
 
+    loadCartList();
 </script>
 }
 

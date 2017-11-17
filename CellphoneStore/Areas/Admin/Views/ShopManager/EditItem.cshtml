@@ -5,77 +5,78 @@
 @section Styles{
     <link href="~/css/Admin.css" rel="stylesheet" />
 }
+<div id="showField" class="hidden">
+    <h2>Edit Item</h2>
 
-<h2>Edit Item</h2>
-
-<form>
-    <table class="table table-responsive">
-        <tr>
-            <td>Name :</td>
-            <td>
-                <input id="name" type="text" class="form-control" placeholder="Item name" />
-            </td>
-        </tr>
-        <tr>
-            <td>Price :</td>
-            <td>
-                <input id="price" type="number" class="form-control" min="0" value="0" />
-            </td>
-        </tr>
-        <tr>
-            <td>Quantity :</td>
-            <td>
-                <input id="quantity" type="number" class="form-control" min="0" value="0" />
-            </td>
-        </tr>
-        <tr>
-            <td>Manufacturer :</td>
-            <td>
-                <select id="manufacturer" class="form-control"></select>
-            </td>
-        </tr>
-        <tr>
-            <td>Description :</td>
-            <td>
-                <textarea id="description" class="form-control" rows="4"></textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>Detailed Description :</td>
-            <td>
-                <textarea id="detailedDescription">
+    <form>
+        <table class="table table-responsive">
+            <tr>
+                <td>Name :</td>
+                <td>
+                    <input id="name" type="text" class="form-control" placeholder="Item name" />
+                </td>
+            </tr>
+            <tr>
+                <td>Price :</td>
+                <td>
+                    <input id="price" type="number" class="form-control" min="0" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <td>Quantity :</td>
+                <td>
+                    <input id="quantity" type="number" class="form-control" min="0" value="0" />
+                </td>
+            </tr>
+            <tr>
+                <td>Manufacturer :</td>
+                <td>
+                    <select id="manufacturer" class="form-control"></select>
+                </td>
+            </tr>
+            <tr>
+                <td>Description :</td>
+                <td>
+                    <textarea id="description" class="form-control" rows="4"></textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>Detailed Description :</td>
+                <td>
+                    <textarea id="detailedDescription">
                 </textarea>
-            </td>
-        </tr>
-        <tr>
-            <td>Image :</td>
-            <td class="form-inline">
-                <input type="text" size="48" name="url" id="imageurl" class="form-control" placeholder="Image URL or upload image" />
-                <a onclick="openPopup()" class="btn btn-primary">Upload image</a>
-            </td>
-        </tr>
-        <tr>
-            <td colspan="2" class="text-left">
-                <a class="btn btn-primary pull-right Rmargin" id="edit">Confirm</a>
-                <a class="btn btn-primary pull-right" id="back">Back</a>
+                </td>
+            </tr>
+            <tr>
+                <td>Image :</td>
+                <td class="form-inline">
+                    <input type="text" size="48" name="url" id="imageurl" class="form-control" placeholder="Image URL or upload image" />
+                    <a onclick="openPopup()" class="btn btn-primary">Upload image</a>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-left">
+                    <a class="btn btn-primary pull-right Rmargin" id="edit">Confirm</a>
+                    <a class="btn btn-primary pull-right" id="back">Back</a>
 
-            </td>
-        </tr>
-    </table>
-</form>
+                </td>
+            </tr>
+        </table>
+    </form>
 
-<div class="modal fade" tabindex="-1" role="dialog">
-    <div class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Alert!!!</h4>
-            </div>
-            <div class="modal-body">
+    <div class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Alert!!!</h4>
+                </div>
+                <div class="modal-body">
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -86,51 +87,21 @@
 
 @section Scripts{
 
-
     @*<script src="~/lib/ckfinder/ckfinder.js" type="text/javascript"></script>*@
     <script src="~/lib/ckeditor/ckeditor.js" type="text/javascript"></script>
-    @*<script>
-                   function openPopup() {
-                       CKFinder.popup({
-                           chooseFiles: true,
-                           onInit: function (finder) {
-                               finder.on('files:choose', function (evt) {
-                                   var file = evt.data.files.first();
-                                   document.getElementById('url').value = file.getUrl();
-                               });
-                               finder.on('file:choose:resizedImage', function (evt) {
-                                   document.getElementById('url').value = evt.data.resizedUrl;
-                               });
-                           }
-                       });
-                   }
-        </script>*@
 
     <script>
-
-
-        $(document).ready(function () {
-
-            var brand = {};
-            brand.url = "http://localhost:49403/api/brands";
-            brand.type = "GET";
-            brand.dataType = "json";
-            brand.success = function (data) {
-                data.forEach(function (element) {
-                    $("#manufacturer").append('<option value="' + element.manufacturerID + '">' + element.name + '</option>');
-                });
-            };
-            brand.error = function () {
-                $("#msg").html("Error while calling the Web API!");
-            };
-            $.ajax(brand);
-
-            //Load data to Manufacturer select box
+        //Load data to form
+        function loadData() {
             var item = {};
             item.url = "http://localhost:49403/api/Items/" + @ViewBag.id;
             item.type = "GET";
             item.dataType = "json";
-            item.success = function (data) {  
+            item.crossDomain = true;
+            item.xhrFields = {
+                withCredentials: true
+            };
+            item.success = function (data) {
                 $('#name').val(data.name);
                 $('#price').val(data.price);
                 $('#quantity').val(data.currentQuantity);
@@ -143,45 +114,93 @@
                 $("#msg").html("Error while calling the Web API!");
             };
             $.ajax(item);
+        };
+        //Load data to Manufacturer select box
+        function loadManufacturerToSelectBox() {
+            var brand = {};
+            brand.url = "http://localhost:49403/api/Manufacturers";
+            brand.type = "GET";
+            brand.dataType = "json";
+            brand.success = function (data) {
+                data.forEach(function (element) {
+                    $("#manufacturer").append('<option value="' + element.manufacturerID + '">' + element.name + '</option>');
+                });
+            };
+            brand.error = function () {
+                $("#msg").html("Error while calling the Web API!");
+            };
+            $.ajax(brand);
+        };
 
-            CKEDITOR.replace('detailedDescription');
+        $(document).ready(function () {
+            //Check Authorize
+            var options = {};
+            options.url = "http://localhost:49403/api/account";
+            options.type = "GET";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (data) {
+                $("#showField").removeClass("hidden");
+                loadManufacturerToSelectBox();
+                loadData();
+                CKEDITOR.replace('detailedDescription');
+                $("#back").click(function () {
+                    window.history.go(-1);
 
-            $("#edit").click(function () {
-                var options = {};
-                options.url = "http://localhost:49403/api/Items/" + @ViewBag.id;
-                options.type = "PUT";
+                });
+                //Set Ajax request for Edit button 
+                $("#edit").click(function () {
+                    var options = {};
+                    options.url = "http://localhost:49403/api/Items/" + @ViewBag.id;
+                    options.type = "PUT";
 
-                var obj = {};
-                obj.itemID = @ViewBag.id;
-                obj.name = $("#name").val();
-                obj.price = $("#price").val();
-                obj.currentQuantity = $("#quantity").val();
-                obj.manufacturerID = $("#manufacturer").val();
-                obj.description = $("#description").val();
-                obj.detailedDescription = CKEDITOR.instances.detailedDescription.getData();
-                obj.image = $("#imageurl").val();
+                    var obj = {};
+                    obj.itemID = @ViewBag.id;
+                    obj.name = $("#name").val();
+                    obj.price = $("#price").val();
+                    obj.currentQuantity = $("#quantity").val();
+                    obj.manufacturerID = $("#manufacturer").val();
+                    obj.description = $("#description").val();
+                    obj.detailedDescription = CKEDITOR.instances.detailedDescription.getData();
+                    obj.image = $("#imageurl").val();
 
-                options.data = JSON.stringify(obj);
-                options.contentType = "application/json";
-                options.dataType = "html";
+                    options.data = JSON.stringify(obj);
+                    options.contentType = "application/json";
+                    options.dataType = "html";
+                    options.crossDomain = true;
+                    options.xhrFields = {
+                        withCredentials: true
+                    };
 
-                options.success = function (msg) {
-                    $('.modal-body').empty();
-                    $('.modal-body').append('<p>Item edited</p>');
-                    $('.modal').modal('toggle');
+                    options.success = function (msg) {
+                        $('.modal-body').empty();
+                        $('.modal-body').append('<p>Item edited</p>');
+                        $('.modal').modal('toggle');
 
-                    $('.modal').on('hidden.bs.modal', function (e) {
-                        window.location.href = '/admin/shopmanager';
-                    })
-                };
-                options.error = function () {
-                    $('.modal-body').empty();
-                    $('.modal-body').append('<p>Item failed to edit</p>');
-                    $('.modal').modal('toggle');
-                };
-                $.ajax(options);
-            });
+                        $('.modal').on('hidden.bs.modal', function (e) {
+                            window.location.href = '/admin/shopmanager';
+                        })
+                    };
+                    options.error = function () {
+                        $('.modal-body').empty();
+                        $('.modal-body').append('<p>Item failed to edit</p>');
+                        $('.modal').modal('toggle');
+                    };
+                    $.ajax(options);
 
+                });
+            };
+            options.error = function () {
+                alert("Unauthorized!!! Please log in");
+                window.location.href = "/Account/Login";
+            };
+            $.ajax(options);
         });
+        
+
+
+
     </script>
 }

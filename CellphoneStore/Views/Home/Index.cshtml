@@ -1,40 +1,107 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 }
+
 @section Styles{ 
     <link href="~/lib/slick/slick.css" rel="stylesheet" asp-file-version="true" />
     <link rel="stylesheet" type="text/css" href="~/lib/slick/slick-theme.css">
 }
 
-<div class="jumbotron">
-    <h1>Welcome to Cell phone Store</h1>
-    <p>...</p>
-    <p><a class="btn btn-primary btn-lg" href="/items" role="button">Explore the store</a></p>
+<style>
+
+    .carousel-caption, h3 {
+        font-weight: bold;
+        color: blue
+    }
+</style>
+
+
+<div id="carousel-example-generic" class="carousel slide" data-ride="carousel" >
+    <!-- Indicators -->
+    <ol class="carousel-indicators">
+        <li data-target="#carousel-example-generic" data-slide-to="0" class="active"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="1"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="2"></li>
+        <li data-target="#carousel-example-generic" data-slide-to="3"></li>
+    </ol>
+
+    <!-- Wrapper for slides -->
+    <center class="carousel-inner" role="listbox" >
+        <div class="item active">
+            <img class="myimage" src="~/Content/images/Banner/Slider1.jpg" alt="...">
+            <div class="carousel-caption">
+                @*Slider1...*@
+                We know what you want
+            </div>
+        </div>
+        <div class="item">
+            <img class="myimage" src="~/Content/images/Banner/Slider2.jpg" alt="...">
+            <div class="carousel-caption">
+                @*Slider2...*@
+                Understand what you need
+            </div>
+        </div>
+        <div class="item">
+            <img class="myimage" src="~/Content/images/Banner/Slider3.jpg" alt="...">
+            <div class="carousel-caption">
+                @*Slider3...*@
+                Listen to what you say
+            </div>
+        </div>
+        <div class="item">
+            <img class="myimage" src="~/Content/images/Banner/Slider4.jpg" alt="...">
+            <div class="carousel-caption">
+                @*Slider4...*@
+                That is the cell phone store
+            </div>
+        </div>
+
+    </center>
+
+    <!-- Controls -->
+    <a class="left carousel-control" href="#carousel-example-generic" role="button" data-slide="prev">
+        <img class="glyphicon glyphicon-chevron-left" aria-hidden="true" src="~/Content/images/Banner/left.png" alt="...">
+   
+    </a>
+    <a class="right carousel-control" href="#carousel-example-generic" role="button" data-slide="next">
+        <img class="glyphicon glyphicon-chevron-right" aria-hidden="true" src="~/Content/images/Banner/right.png" alt="...">
+      
+    </a>
 </div>
 
+<center><h3>BEST SALE <img src="~/Content/images/hot.gif" width="35" height="30" /></h3> </center>
 <section class="variable slider ">
     
 </section>
-
-
-
-
+<hr style="color:red"/>
+<center><h3>NEWEST CELL PHONE <img src="~/Content/images/new.gif" width="35" height="30" /></h3> </center>
+<section class="variable2 slider ">
+    
+</section>
 
 
 @section Scripts{ 
 <script src="~/lib/slick/slick.min.js" type="text/javascript" charset="utf-8"></script>
 <script src="~/js/ShoppingCart.js" type="text/javascript" charset="utf-8"></script>
 <script>
-    cart.loadFromLocalStorage();
-    cart.updateBadge();
+    $('.carousel').carousel({
+        interval: 8000
+    })
     $(document).on('ready', function () {
+      //  <h3>BEST SALE</h3> 
+        BestSale();
+     //   <h3>NEWEST CELL PHONE</h3>
+        Newest();
+    });
+
+    function BestSale() { 
         var options = {};
-        options.url = "http://localhost:49403/api/Items";
+        options.url = "http://localhost:49403/api/items/BestSale";
         options.type = "GET";
         options.dataType = "json";
         options.success = function (data) {
             data.forEach(function (element) {
-                $(".variable").append('<div class="thumbnail thumbnail-modified"><a href="/items/details/' + element.itemID + '"><img class="img-responsive"src="' + element.image + '" alt="No Image"> <div class="caption text-center"> ' + element.name + '<p>' + element.price + '</p></a> <p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details</a> <button class="btn btn-default" onclick="cart.increaseItemByQuantity(' + element.itemID + ',\'' + element.name + '\',' + element.price + ',1)" >Add to Cart</button></p></div></div>');
+                $(".variable").append('<div class="thumbnail thumbnail-modified"><a href="/items/details/' + element.itemID + '"><img class="img-responsive"src="' + element.image + '" alt="No Image"></a> <h4> ' + element.name + '</h4> <p style="color:green;font-size:small">' + element.price + ' USD</p><p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details</a> <button class="btn btn-success" onclick="cart.increaseItemByQuantity(' + element.itemID + ',\'' + element.name + '\',' + element.price + ',1)" >Add to Cart</button></p></div></div>');
             });
         };
         options.error = function () {
@@ -47,12 +114,40 @@
                 variableWidth: true,
                 slidesToScroll: 1,
                 autoplay: true,
-                autoplaySpeed: 2000,
+                autoplaySpeed: 5000,
                 pauseOnHover: true,
                 slidesPerRow: 5,
             });
         });
-    });
+    }
+
+    function Newest() {
+        var options = {};
+        options.url = "http://localhost:49403/api/items/Newest";
+        options.type = "GET";
+        options.dataType = "json";
+        options.success = function (data) {
+            data.forEach(function (element) {
+                $(".variable2").append('<div class="thumbnail thumbnail-modified"><a href="/items/details/' + element.itemID + '"><img class="img-responsive"src="' + element.image + '" alt="No Image"></a> <h4> ' + element.name + ' </h4> <p style="color:green;font-size:small">' + element.price + ' USD </p><p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details</a> <button class="btn btn-success" onclick="cart.increaseItemByQuantity(' + element.itemID + ',\'' + element.name + '\',' + element.price + ',1)" >Add to Cart</button></p></div></div>');
+            });
+        };
+        options.error = function () {
+            $("#msg").html("Error while calling the Web API!");
+        };
+        $.ajax(options).done(function () {
+            $(".variable2").slick({
+                slidesToShow: 5,
+                infinite: true,
+                variableWidth: true,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 5000,
+                pauseOnHover: true,
+                slidesPerRow: 5,
+            });
+        });
+
+    }
 </script>
 
 }

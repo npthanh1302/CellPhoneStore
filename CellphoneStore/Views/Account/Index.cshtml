@@ -2,6 +2,31 @@
 @{
     ViewData["Title"] = "Index";
 }
+<div class="hidden" id="showField">
 
-<h2>Index</h2>
+    <h2>Index</h2>
 
+</div>
+
+@section Scripts{ 
+    <script>
+     $(document).ready(function () {
+            //Check Authorize
+            var options = {};
+            options.url = "http://localhost:49403/api/account";
+            options.type = "GET";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (data) {
+                $("#showField").removeClass("hidden");
+            };
+            options.error = function () {
+                alert("Unauthorized!!! Please log in");
+                window.location.href = "/Account/Login";
+            };
+            $.ajax(options);
+     });
+    </script>
+}

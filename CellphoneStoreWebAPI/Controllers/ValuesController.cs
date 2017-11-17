@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using CellphoneStoreWebAPI.Models;
 
 namespace CellphoneStoreWebAPI.Controllers
 {
@@ -29,11 +30,7 @@ namespace CellphoneStoreWebAPI.Controllers
         }
 
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody]string value)
-        {
-        }
+
 
         // PUT api/values/5
         [HttpPut("{id}")]

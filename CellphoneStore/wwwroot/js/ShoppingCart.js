@@ -1,13 +1,12 @@
 ﻿var cart = {};
+
 cart.data = [];
 cart.keyID = "cart";
 cart.badgeSelector = ".badge";
+
 cart.loadFromLocalStorage = function () {
-    cart.data = JSON.parse(localStorage.getItem(cart.keyID));
-    if (!cart.data || cart.length === 0) {
-        return false;
-    }
-    return true;
+    if (JSON.parse(localStorage.getItem(cart.keyID)))
+        cart.data = JSON.parse(localStorage.getItem(cart.keyID));
 };
 
 cart.increaseItemByQuantity = function (itemID, itemName, itemPrice, itemQuantity) {
@@ -55,3 +54,6 @@ cart.updateBadge = function () {
     if (cart.totalItemInCart() > 0)
         $(cart.badgeSelector).append(cart.totalItemInCart());
 };
+
+cart.loadFromLocalStorage();
+cart.updateBadge();

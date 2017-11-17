@@ -1,12 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
 
 namespace CellphoneStoreWebAPI.Models
 {
-    public class CellphoneDbContext : DbContext
+    public class ApplicationUser : IdentityUser { }
+    public class CellphoneDbContext : IdentityDbContext<ApplicationUser>
     {
         public DbSet<Item> Items { get; set; }
-        public DbSet<Brand> Brands { get; set; }
+        public DbSet<Manufacturer> Manufacturers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<DetailedOrder> DetailedOrders { get; set; }
 
 
         public CellphoneDbContext(DbContextOptions options) : base(options)
@@ -14,15 +20,6 @@ namespace CellphoneStoreWebAPI.Models
 
         }
 
-        //protected override void OnModelCreating(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Item>()
-        //    .HasOne(e => e.ItemDetail).WithOne(e => e.Item)
-        //    .HasForeignKey<ItemDetail>(e => e.ItemID);
-
-        //    modelBuilder.Entity<Item>().ToTable("Items");
-        //    modelBuilder.Entity<ItemDetail>().ToTable("Items");
-        //}
 
     }
 }

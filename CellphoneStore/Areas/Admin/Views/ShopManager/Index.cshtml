@@ -4,71 +4,78 @@
 }
 @section Styles{
     <link href="~/css/Admin.css" rel="stylesheet" />
+
 }
-<h2>Index</h2>
-<div>
 
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs" role="tablist">
-        <li role="presentation" class="active"><a href="#item" aria-controls="home" role="tab" data-toggle="tab">Items</a></li>
-     
-        
-    </ul>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div role="tabpanel" class="tab-pane fade active in" id="item">
-            <table class="table table-hover table-responsive" id="itemList">
-                <tr>
-                    <td colspan="6"><a class="btn btn-primary btn-block" href="shopmanager/createitem">Create new Item</a>
-                    </td>
-                </tr>
-                <tr>
-                    <th>#</th>
-                    <th>Image</th>
-                    <th>Name</th>
-                    <th>Description</th>
-                    <th>Price</th>
-                    <th>Action</th>
-                </tr>
+<div id="showField" class="hidden">
 
-            </table>
+    <h2>Manage Page</h2>
+    <div>
+
+        <!-- Nav tabs -->
+        <ul class="nav nav-tabs" role="tablist">
+            <li role="presentation" class="active"><a href="#item" aria-controls="home" role="tab" data-toggle="tab">Items</a></li>
+
+
+        </ul>
+
+        <!-- Tab panes -->
+        <div class="tab-content">
+            <div role="tabpanel" class="tab-pane fade active in" id="item">
+                <table class="table table-hover table-responsive" id="itemList">
+                    <tr>
+                        <td colspan="6">
+                            <a class="btn btn-primary btn-block" href="shopmanager/createitem">Create new Item</a>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>#</th>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Action</th>
+                    </tr>
+
+                </table>
+            </div>
+
         </div>
-        
+
     </div>
 
-</div>
- 
-<div id ="confirmDelete" class="modal fade" tabindex="-1" role="dialog">
-    <div id="1" class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Confirm delete item!!!</h4>
-            </div>
-            <div class="modal-body">
-                You want to delete this item?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnNo">No</button>
-                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnYes">Yes</button>
+    <div id="confirmDelete" class="modal fade" tabindex="-1" role="dialog">
+        <div id="1" class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Confirm delete item!!!</h4>
+                </div>
+                <div class="modal-body">
+                    You want to delete this item?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btnNo">No</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnYes">Yes</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-<div id="deleteResult" class="modal fade" tabindex="-1" role="dialog">
-    <div id="1" class="modal-dialog modal-sm" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Alert!!!</h4>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+    <div id="deleteResult" class="modal fade" tabindex="-1" role="dialog">
+        <div id="1" class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Alert!!!</h4>
+                </div>
+                <div class="modal-body">
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
             </div>
         </div>
     </div>
@@ -76,7 +83,6 @@
 
 @section Scripts{
     <script>
-        
         $('#btnNo').click(function () {
             $('#btnYes').prop('onclick', null).off('click');
         });
@@ -94,6 +100,10 @@
             item.url = "http://localhost:49403/api/items/" + id;
             item.type = "DELETE";
             item.dataType = "html";
+            item.crossDomain = true;
+            item.xhrFields = {
+                withCredentials: true
+            };
 
             item.success = function (msg) {
                 $('#deleteResult .modal-body').empty();
@@ -120,7 +130,7 @@
             options.success = function (data) {
                 var count = 1;
                 data.forEach(function (element) {
-                    $("#itemList").append('<tr><td>' + count + '</td><td><img class="thumbnail thumbnail-row" src="' + element.image + '"/></td><td>' + element.name + '</td><td>' + element.description + '</td><td>' + element.price + '</td><td><a class="btn btn-success btn-block" href="shopmanager/edititem/'+ element.itemID +'" role="button">Edit</a><a class="btn btn-info btn-block" href="shopmanager/details/' + element.itemID + '" role="button">Detail</a><a class="btn btn-danger btn-block" onClick="confirmDelete(' + element.itemID + ')" role="button">Delete</a></td></tr>');
+                    $("#itemList").append('<tr><td>' + count + '</td><td><img class="thumbnail thumbnail-row" src="' + element.image + '"/></td><td>' + element.name + '</td><td>' + element.description + '</td><td>' + element.price + '</td><td><a class="btn btn-success btn-block" href="shopmanager/edititem/'+ element.itemID +'" role="button">Edit</a><a class="btn btn-danger btn-block" onClick="confirmDelete(' + element.itemID + ')" role="button">Delete</a></td></tr>');
                     count++;
                 });
             };
@@ -130,9 +140,23 @@
             $.ajax(options);
         }
         $(document).ready(function () {
-            LoadItem();
- 
-  
+            var options = {};
+            options.url = "http://localhost:49403/api/account";
+            options.type = "GET";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (data) {
+                $("#showField").removeClass("hidden");
+                LoadItem();
+            };
+            options.error = function () {
+                alert("Unauthorized!!! Please log in");
+                window.location.href = "/Account/Login";
+            };
+            $.ajax(options);
+            
         });
     </script>
 
