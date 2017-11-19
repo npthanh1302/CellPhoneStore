@@ -152,8 +152,8 @@
 
             };
             options.error = function () {
-                alert("Unauthorized!!! Please log in");
-                window.location.href = "/Account/Login";
+                alert("Unauthorized!!!");
+                window.location.href = "/";
             };
             $.ajax(options);
         });
@@ -169,9 +169,7 @@
                     $("#manufacturer").append('<option value="' + element.manufacturerID+'">'+element.name +'</option>');
                 });
             };
-            brand.error = function () {
-                $("#msg").html("Error while calling the Web API!");
-            };
+
             $.ajax(brand);
         };
     </script>

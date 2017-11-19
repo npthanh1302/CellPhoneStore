@@ -1,0 +1,74 @@
+﻿
+@{
+    ViewData["Title"] = "OrderResult";
+}
+
+<h2>OrderResult</h2>
+<div class="text-center">
+    <img src="~/Content/Images/CheckedCart.png" alt="Alternate Text" />
+</div>
+<div class="row">
+    <div class="col-md-6 col-md-offset-3" id="customerInfo">
+        <div class="row">
+            <div class="col-md-6">
+                <h4 class="text-primary">Customer Information</h4>
+                <table class="table table-responsive table-hover">
+                    <tr>
+                        <td>Full Name</td>
+                        <td id="name"></td>
+                    </tr>
+                    <tr>
+                        <td>Address</td>
+                        <td id="address"></td>
+                    </tr>
+                    <tr>
+                        <td>Email</td>
+                        <td id="email"></td>
+                    </tr>
+                    <tr>
+                        <td>Phone number</td>
+                        <td id="phone"></td>
+                    </tr>
+                    <tr>
+                        <td>Note</td>
+                        <td id="note"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="col-md-6">
+                <h4 class="text-primary"> Order item:</h4>
+                <table class="table table-responsive table-hover" id="ItemsList">
+                    <tr>
+                        <th>Name</th>
+                        <th>Price(each)</th>
+                        <th>Quantity</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<button type="button" class="btn btn-primary pull-right" onclick="window.location.href = '/'">Back to Home Page</button>
+
+@section Scripts{ 
+    <script>
+        var order = JSON.parse(localStorage.getItem("order"));
+        var customer = JSON.parse(localStorage.getItem("customer"));
+        
+        $(document).ready(function () { 
+            var total = 0;
+            order.forEach(function (element) {
+                $("#ItemsList").append('<tr><td>' + element.name + '</td><td>' + element.price + '</td><td>' + element.quantity + '</td></tr>');
+                total += (element.price * element.quantity);
+            });
+            $("#ItemsList").append('<tr><td colspan="2">Total</td><td>' + total + 'USD</td></tr>');
+            $("#name").append(customer.name);
+            $("#address").append(customer.address);
+            $("#email").append(customer.email);
+            $("#note").append(customer.note);
+            $("#phone").append(customer.phoneNumber);
+            localStorage.removeItem("order");
+            localStorage.removeItem("customer");
+        });
+    </script>
+}

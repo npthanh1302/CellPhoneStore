@@ -3,7 +3,7 @@
     ViewData["Title"] = "CheckOut";
 }
 <div class="hidden" id="showField">
-    <h2>CheckOut @ViewBag.id</h2>
+    <h2>CheckOut</h2>
     <div id="alertArea">
 
     </div>
@@ -41,28 +41,12 @@
 
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-8">
-                <button type="button" class="btn btn-default" onclick="checkOut()">Register</button>
+                <button type="button" class="btn btn-primary" onclick="checkOut()">Order</button>
                 <button type="button" onclick="window.history.go(-1); return false;" class="btn btn-default">Back</button>
             </div>
         </div>
     </form>
 
-    <div id="orderSuccess" class="modal fade" tabindex="-1" role="dialog">
-        <div class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Order!!!</h4>
-                </div>
-                <div class="modal-body">
-                    <p>Your order has been recieved!!!</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 </div>
 
 
@@ -91,6 +75,7 @@
     }, "Please specify a valid phone number");
 
     $("#checkOutForm").validate({
+        errorClass: "text-danger",
         rules: {
             fullname: {
                 required: true,
@@ -106,6 +91,7 @@
             },
             phone: {
                 required: true,
+                maxlength: 12,
                 phoneUS: true
             },
             note: { maxlength: 255 }
@@ -125,7 +111,7 @@
             },
             phone: {
                 required: "Phone number is required",
-                
+                maxlength: jQuery.validator.format("Your phone number only allows maximum {0} numbers")
             },
             note: {
                 maxlength: jQuery.validator.format("Your note only allows maximum {0} characters")
@@ -142,6 +128,13 @@
             orderinfo.phoneNumber = $("#phone").val();
             orderinfo.note = $("#note").val();
             orderinfo.username = sessionStorage.getItem("account");
+            var now = new Date();
+
+            var day = ("0" + now.getDate()).slice(-2);
+            var month = ("0" + (now.getMonth() + 1)).slice(-2);
+
+            var today = now.getFullYear() + "-" + (month) + "-" + (day);
+            orderinfo.purchasedDate = today;
 
             var listdetailedorder = [];
             cart.data.forEach(function (element) {
@@ -160,9 +153,14 @@
             options.xhrFields = {
                 withCredentials: true
             };
-            options.success = function () {
+            options.success = function (data) {
+                window.location.href = "/Cart/OrderResult/";
+                var order = cart.data;
                 localStorage.removeItem("cart");
-                $("#orderSuccess").modal('toggle');
+                localStorage.setItem("order", JSON.stringify(order));
+                var customer = {};
+                customer = orderinfo;
+                localStorage.setItem("customer", JSON.stringify(customer));
             };
             options.error = function () {
                 $("#alertArea").empty();

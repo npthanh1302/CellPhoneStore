@@ -12,9 +12,12 @@ namespace CellphoneStore.Controllers
         {
             return View();
         }
-        public IActionResult CheckOut(string id)
+        public IActionResult CheckOut()
         {
-            ViewBag.id = id;
+            return View();
+        }
+        public IActionResult OrderResult()
+        {
             return View();
         }
 

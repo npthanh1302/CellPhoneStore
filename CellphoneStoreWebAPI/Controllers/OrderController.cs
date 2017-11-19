@@ -36,6 +36,7 @@ namespace CellphoneStoreWebAPI.Controllers
         {
             return db.Orders.Find(id);
         }
+
         //GET: api/Order/Details/
         [HttpGet("details/{id}")]
         [Authorize(Roles = "Admin")]
@@ -63,7 +64,7 @@ namespace CellphoneStoreWebAPI.Controllers
         }
         // POST: api/Order
         [HttpPost]
-        [Authorize(Roles = "User")]
+        [Authorize(Roles = "Admin,User")]
         public IActionResult CreateOrder([FromBody]CreateOrderForm obj)
         {
             if (ModelState.IsValid)
@@ -79,7 +80,7 @@ namespace CellphoneStoreWebAPI.Controllers
                     db.DetailedOrders.Add(item);
                     db.SaveChanges();
                 }
-                return Ok();
+                return new ObjectResult(obj.OrderInfo.OrderID);
             }
             return BadRequest(ModelState.Values.SelectMany(v => v.Errors).Select(modelError => modelError.ErrorMessage).ToList()); 
             

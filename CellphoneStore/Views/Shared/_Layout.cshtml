@@ -138,7 +138,7 @@
                 alert("Log out successfully!!!");
                 sessionStorage.removeItem("account");
                 localStorage.removeItem("account");
-                location.reload();
+                window.location.href="/";
             };
             $.ajax(options);
         };

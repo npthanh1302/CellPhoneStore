@@ -105,7 +105,10 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title">Order Details</h4>
+                <h4 class="modal-title text-primary">Order Details</h4>
+                <div id="customerInfo">
+
+                </div>
             </div>
             <div class="modal-body">
                 <table class="table table-responsive">
@@ -186,13 +189,37 @@
             };
             options.success = function (data) {
                 var count = 1;
-                data.forEach(function (element) {
-                    
-                    var d = element.purchasedDate;
-                    d = d.split('T')[0];
-                    $("#orderList").append('<tr onclick="showDetails(' + element.orderID + ')"><td>' + count + '</td><td>' + element.username + '</td><td>' + element.name + '</td><td>' + element.address + '</td><td>' + element.email + '</td><td>' + element.phoneNumber + '</td><td>' + element.note + '</td><td>' + d+'</td></tr>');
-                    count++;
-                });
+                if (data.length == 0) {
+                    $("#orderList").append('<tr><td colspan="8" class="text-center text-danger">No order to display</td></tr>');
+                } else {
+                    data.forEach(function (element) {
+                        var d = element.purchasedDate;
+                        d = d.split('T')[0];
+                        $("#orderList").append('<tr onclick="showDetails(' + element.orderID + ')"><td>' + count + '</td><td>' + element.username + '</td><td>' + element.name + '</td><td>' + element.address + '</td><td>' + element.email + '</td><td>' + element.phoneNumber + '</td><td>' + element.note + '</td><td>' + d + '</td></tr>');
+                        count++;
+                    });
+                }
+            };
+            options.error = function () {
+                Console.log("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        }
+        function loadCustomerInfoToModal(orderID) {
+            var options = {};
+            options.url = "http://localhost:49403/api/order/" + orderID;
+            options.type = "GET";
+            options.dataType = "json";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (element) {
+                var d = element.purchasedDate;
+                d = d.split('T')[0];
+                $("#customerInfo").empty();
+                $("#customerInfo").append('<div class="row"><div class="col-md-4">Full Name</div><div class="col-md-8">' + element.name + '</div></div><div class="row"><div class="col-md-4">Address</div><div class="col-md-8">' + element.address + '</div></div><div class="row"><div class="col-md-4">Email</div><div class="col-md-8">' + element.email + '</div></div><div class="row"><div class="col-md-4">Phone number</div><div class="col-md-8">' + element.phoneNumber + '</div></div><div class="row"><div class="col-md-4">Note</div><div class="col-md-8">' + element.note + '</div></div><div class="row"><div class="col-md-4">Purchased Date</div><div class="col-md-8">' + d + '</div></div>');
+
             };
             options.error = function () {
                 Console.log("Error while calling the Web API!");
@@ -209,6 +236,7 @@
                 withCredentials: true
             };
             options.success = function (data) {
+                loadCustomerInfoToModal(orderID);
                 var total = 0;
                 $("#orderDetail .modal-body table").empty();
                 $("#orderDetail .modal-body table").append('<tr><th>Item Name</th><th>Price(each)</th><th>Quantity</th></tr>');
@@ -223,7 +251,6 @@
                 Console.log("Error while calling the Web API!");
             };
             $.ajax(options);
-
         }
         $(document).ready(function () {
             var options = {};
@@ -239,8 +266,8 @@
                 LoadOrder();
             };
             options.error = function () {
-                alert("Unauthorized!!! Please log in");
-                window.location.href = "/Account/Login";
+                alert("Unauthorized!!!");
+                window.location.href = "/";
             };
             $.ajax(options);
             
