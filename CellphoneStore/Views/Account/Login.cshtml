@@ -4,6 +4,11 @@
 }
 <div class="hidden" id="showField">
     <h2>Login</h2>
+
+    <div id="alertArea">
+        
+    </div>
+
     <form class="form-horizontal" id="loginForm">
         <div class="form-group">
             <label for="username" class="col-sm-2 control-label">User name</label>
@@ -44,10 +49,10 @@
             if (sessionStorage.getItem("account") === null) {
                 $("#showField").removeClass("hidden");
             } else {
-                alert("You already log in!!! Back to Home page!!!");
                 window.location.href = "/";
             };
         });
+        
         $("#loginForm").validate({
             rules: {
                 username: {
@@ -88,16 +93,15 @@
                     withCredentials: true
                 };
                 options.success = function () {   
-                    alert("Login success");
                     if (obj.saveLogin === false)
                         sessionStorage.setItem("account", obj.username);
                     else
                         localStorage.setItem("account", obj.username);
                     window.history.go(-1);
                 };
-
                 options.error = function () {
-                    alert("Fail to login. Check your Email and password!");
+                    $("#alertArea").empty();
+                    $("#alertArea").append('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type= "button" class="close" data-dismiss="alert" aria-label="Close" ><span aria-hidden="true">&times;</span></button><strong>Login failed!!!</strong> Please check your username and password.</div>');
                 };
                 $.ajax(options);
             }

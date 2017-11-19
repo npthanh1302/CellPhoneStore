@@ -4,6 +4,9 @@
 }
 <div class="hidden" id="showField">
     <h2>CheckOut @ViewBag.id</h2>
+    <div id="alertArea">
+
+    </div>
     <form class="form-horizontal" id="checkOutForm">
         <div class="form-group">
             <label for="fullname" class="col-sm-2 control-label">Full Name</label>
@@ -43,6 +46,23 @@
             </div>
         </div>
     </form>
+
+    <div id="orderSuccess" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-sm" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Order!!!</h4>
+                </div>
+                <div class="modal-body">
+                    <p>Your order has been recieved!!!</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 
@@ -59,6 +79,9 @@
             window.location.href = "/Account/Login";
         } else {
             $("#showField").removeClass("hidden");
+            $("#orderSuccess").on('hidden.bs.modal', function () {
+                window.location.href = "/";
+            });
         }
     });
     jQuery.validator.addMethod("phoneUS", function (phone_number, element) {
@@ -138,12 +161,12 @@
                 withCredentials: true
             };
             options.success = function () {
-                alert("Order recieved!!!");
-                window.location.href = "/";
                 localStorage.removeItem("cart");
+                $("#orderSuccess").modal('toggle');
             };
             options.error = function () {
-                alert("Fail to recieve your order!!!");
+                $("#alertArea").empty();
+                $("#alertArea").append('<div class="alert alert-danger alert-dismissible fade in" role="alert"><button type= "button" class="close" data-dismiss="alert" aria-label="Close" ><span aria-hidden="true">&times;</span></button><strong>Fail to create your order</strong> Please try again.</div>');
             };
             $.ajax(options);
         }

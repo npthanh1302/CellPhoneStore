@@ -1,0 +1,10 @@
+-p C:\Program Files\dotnet\dotnet.exe
+-pidFile C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStore\bin\IISSupport\pidfile.txt
+-wd C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStore
+-a exec "C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStore\bin\Debug\netcoreapp2.0\CellphoneStore.dll"
+-wbe Global\Buildd271192f-ffb3-4060-a980-b97f7d5c3b49
+-lse Global\Launcha1b6455b-845b-4b74-afd5-79dc85620976
+-pipe 8f919de5-d9c5-4b28-90ec-2ae0bab3afb8
+-pr CellphoneStore
+-owningPid 3248
+-env ASPNETCORE_CONTENTROOT=C:\Users\Dante\Documents\Visual Studio 2017\Projects\CellphoneStore\CellphoneStore|ASPNETCORE_HOSTINGSTARTUPASSEMBLIES=Microsoft.AspNetCore.ApplicationInsights.HostingStartup|ASPNETCORE_ENVIRONMENT=Development|COMPLUS_ForceENC=1|

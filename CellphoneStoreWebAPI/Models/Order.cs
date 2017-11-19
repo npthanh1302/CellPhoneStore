@@ -29,5 +29,7 @@ namespace CellphoneStoreWebAPI.Models
         public string Note { get; set; }
         [MaxLength(255)]
         public string Username { get; set; }
+
+        public DateTime PurchasedDate { get; set; }
     }
 }

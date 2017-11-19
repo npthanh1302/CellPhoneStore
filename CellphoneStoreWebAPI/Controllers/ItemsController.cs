@@ -21,21 +21,21 @@ namespace CellphoneStoreWebAPI.Controllers
         {
             this.db = db;
         }
+
         //Get api/Items?brandid for items of a brand or api/Items for list of all items
-        
         [HttpGet]
         public List<Item> GetItemsByBrand(int? brandid, string name, int? minPrice, int? maxPrice)
         {
-            if (brandid == null && name == null && minPrice == null && maxPrice == null)
-                return db.Items.FromSql("SELECT * FROM dbo.Items order by Price asc").ToList();
-            else if (brandid == null && name == null && minPrice != null && maxPrice != null)
+            if (brandid == null && name == null && minPrice != null && maxPrice != null)//filter by min and max price
                 return db.Items.FromSql("SELECT * FROM dbo.Items where Price between " + minPrice + " and " + maxPrice + " order by Price asc").ToList();
-            else if (brandid != 0 && name == null && minPrice == null && maxPrice == null)//filter by brandid
-                return db.Items.FromSql("SELECT * FROM dbo.Items WHERE ManufacturerID = " + brandid.ToString() + " order by Price asc").ToList();
+            else if (brandid != null && name == null && minPrice == null && maxPrice == null)//filter by brandid
+                return db.Items.FromSql("SELECT * FROM dbo.Items WHERE ManufacturerID = " + brandid.ToString()).ToList();
             else if (brandid == null && name != null && minPrice == null && maxPrice == null)//filter by name (input search)
                 return db.Items.FromSql("SELECT * FROM dbo.Items WHERE Name like " + "'%" + name.ToString() + "%'" + " order by Price asc").ToList();
+            else if (brandid != null && name == null && minPrice != null && maxPrice != null) //filter by brand and max min price
+                return db.Items.FromSql("SELECT * FROM dbo.Items where ManufacturerID = " + brandid.ToString() + ", Price between " + minPrice + " and " + maxPrice + " order by Price asc").ToList();
 
-            return db.Items.FromSql("SELECT * FROM dbo.Items order by Price asc").ToList();
+            return db.Items.ToList();
         }
 
 
@@ -55,9 +55,9 @@ namespace CellphoneStoreWebAPI.Controllers
 
         // GET: api/Item/Newest
         [HttpGet("Newest")]
-        public List<Item> GetNewest()
+        public List<Item> GetNewest(int numberOfItem)
         {
-            return db.Items.FromSql("select top 8 * from Items order by CreatedDate desc").ToList();
+            return db.Items.FromSql("select top "+ numberOfItem +" * from Items order by CreatedDate desc").ToList();
         }
 
 

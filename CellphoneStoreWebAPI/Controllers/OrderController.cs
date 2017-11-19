@@ -6,6 +6,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using CellphoneStoreWebAPI.Models;
 using Microsoft.AspNetCore.Authorization;
+using CellphoneStoreWebAPI.Models.OrderModel;
+using Microsoft.EntityFrameworkCore;
 
 namespace CellphoneStoreWebAPI.Controllers
 {
@@ -22,19 +24,43 @@ namespace CellphoneStoreWebAPI.Controllers
         // GET: api/Order
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Order> Get()
         {
-            return new string[] { "value1", "value2" };
+            return db.Orders.ToList();
         }
 
         // GET: api/Order/5
         [Authorize(Roles = "Admin")]
         [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
+        public Order Get(int id)
         {
-            return "value";
+            return db.Orders.Find(id);
         }
-        
+        //GET: api/Order/Details/
+        [HttpGet("details/{id}")]
+        [Authorize(Roles = "Admin")]
+        public List<OrderDetailView> GetOrderDetailView(int id)
+        {
+            List<OrderDetailView> result = new List<OrderDetailView>();
+
+            var test = db.DetailedOrders
+                .Join(db.Items,
+                    d => d.ItemID,
+                    i => i.ItemID,
+                    (d, i) => new
+                    {
+                        OrderID = d.OrderID,
+                        ItemName = i.Name,
+                        Price = d.Price,
+                        Quantity = d.Quantity,
+                    }).
+                Where(a => a.OrderID == id).ToList();
+            foreach (var item in test)
+            {
+                result.Add(new OrderDetailView(item.OrderID, item.ItemName,item.Price,item.Quantity));
+            }
+            return result;
+        }
         // POST: api/Order
         [HttpPost]
         [Authorize(Roles = "User")]

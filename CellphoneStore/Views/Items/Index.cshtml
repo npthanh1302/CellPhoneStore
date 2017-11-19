@@ -11,35 +11,35 @@
         </div>
     </div>
     <div class="col-sm-10">
-        <center>
-
-            <input type="text" id="prodId" size="28" placeholder="Enter product search here" />
-            <a class="btn btn-success" onclick="filterItems(name)">Search</a> <br />
-
-        </center>
-        <div>
-            <fieldset style="background-color:lavenderblush">
-                <legend>Filter by price you want </legend>
-                From <input type="number" id="minPrice" placeholder="min price" style="width:8em" />
-                to <input type="number" id="maxPrice" placeholder="max price" style="width:8em" />
-                <a class="btn btn-success" onclick="filterPrice(minPrice,maxPrice)">Filter</a> <br />
-            </fieldset>
-
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="input-group">
+                    <span class="input-group-addon">From</span>
+                    <input type="number" id="minPrice" placeholder="Min price" class="form-control" min="0" />
+                    <span class="input-group-addon">To</span>
+                    <input type="number" id="maxPrice" placeholder="Max price" class="form-control" min="0" />
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success" onclick="filterPrice()">Filter</button>
+                    </span>
+                </div>
+            </div>
+            <div class="col-sm-4 col-sm-offset-8 input-group">
+                <input type="text" id="searchName" class="form-control" placeholder="Enter product search here">
+                <span class="input-group-btn">
+                    <button class="btn btn-success" type="button" onclick="filterItems()">Go!</button>
+                </span>
+            </div>
         </div>
-        <br />
-        <label id="result"> </label><br />
+        <hr/>
+        <div id="result"></div>
+        
         <div class="row" id="ItemsList">
         </div>
     </div>
 </div>
 
-
-
-
-
-
 @section Scripts{ 
-<script src="~/js/ShoppingCart.js" type="text/javascript"></script>
+
 <script>
     $(document).ready(function () {
         loadAllItems();
@@ -88,7 +88,7 @@
         $.ajax(item);
     };
 
-    function loadByManufacturerID(id, button,e) {
+    function loadByManufacturerID(id, button) {
         manufactorerButtonToggle(button);
         $("#ItemsList").empty();
         var item = {};
@@ -111,8 +111,8 @@
         $.ajax(item);
     };
 
-    function filterItems(name) {
-        name = $('#prodId').val();
+    function filterItems() {
+        name = $('#searchName').val();
         $("#ItemsList").empty();
         var item = {};
         item.url = "http://localhost:49403/api/items?name="+name;
@@ -135,9 +135,11 @@
 
     };
 
-    function filterPrice(minPrice, maxPrice) {
-        minPrice = $('#minPrice').val();
-        maxPrice = $('#maxPrice').val();
+    function filterPrice() {
+        var minPrice = $('#minPrice').val();
+        if (minPrice === "")
+            minPrice = 0;
+        var maxPrice = $('#maxPrice').val();
 
         $("#result").empty();
         $("#ItemsList").empty();
@@ -147,16 +149,16 @@
         item.dataType = "json";
         item.success = function (data) {
             if (!$.trim(data)) {
-                $("#ItemsList").append('<div class="alert alert-danger" role="alert" style="font-size:small;width:100%">No items found!</div>');
+                $("#result").append('<div class="alert alert-danger text-center" role="alert">No items found!</div>');
             }
             else {
                 data.forEach(function (element) {
                     $("#ItemsList").append('<div class="col-sm-6 col-md-3"> <div class="thumbnail"> <img src="' + element.image + '" alt="No Image"> <div class="caption text-center"> <h3>' + element.name + '</h3> <p style="color:green;font-size:small">' + element.price + ' USD</p> <p><a href="/items/details/' + element.itemID + '" class="btn btn-primary" role="button">Details</a> <button class="btn btn-success" onclick="cart.increaseItemByQuantity(' + element.itemID + ',\'' + element.name + '\',' + element.price + ',1)">Add to Cart</button></p></div></div></div>');
                 });
-
             }
-            dem = data.length;
-            $("#result").append("<p/> There are " + dem + " results found!");
+            if (data.length >0)
+                $("#result").append('<div class="alert alert-success text-center" role="alert">There are ' + data.length + ' result(s) found!</div>');
+            
         };
         item.error = function () {
             $("#msg").html("Error while calling the Web API!");

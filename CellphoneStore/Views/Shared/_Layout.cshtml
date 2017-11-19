@@ -48,17 +48,14 @@
                     <li id="account" class="dropdown hidden">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-user"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="/admin/shopmanager">Admin Page</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="/Account">Account Information</a></li>
-                            
+                            <li><a href="/admin/shopmanager" id="adminpage">Admin Page</a></li>                           
                             <li role="separator" class="divider"></li>
                             <li><a href="#" onclick="logOut()";>Log Out</a></li>
                         </ul>
                     </li>
                     <li id="login" class="hidden"><a href="/Account/Login"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
                     <li id="register" class="hidden"><a href="/Account/Register">Register</a></li>
-                    <li><a href="../Cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="badge"></span></a></li>
+                    <li><a href="/Cart"><span class="glyphicon glyphicon-shopping-cart"></span> Cart <span class="badge"></span></a></li>
                 </ul>
             </div>
         </div>
@@ -115,6 +112,18 @@
             if (sessionStorage.getItem("account") === null)
                 sessionStorage.setItem("account", localStorage.getItem("account"));
             $("#account a:first").append(sessionStorage.getItem("account"));
+            //check admin authorize
+            var options = {};
+            options.url = "http://localhost:49403/api/account";
+            options.type = "GET";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.error = function (data) {
+                $("#adminpage").addClass("hidden");
+            };
+            $.ajax(options);
         }
         //log out function
         function logOut() {

@@ -4,20 +4,27 @@
 }
 @section Styles{
     <link href="~/css/Admin.css" rel="stylesheet" />
-
+    <style>
+        #total {
+            background-color: #dff0d8;
+            font-size:medium;
+            font-weight: bold;
+        }
+    </style>
 }
 
 
 <div id="showField" class="hidden">
+
+
 
     <h2>Manage Page</h2>
     <div>
 
         <!-- Nav tabs -->
         <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#item" aria-controls="home" role="tab" data-toggle="tab">Items</a></li>
-
-
+            <li role="presentation" class="active"><a href="#item" aria-controls="item" role="tab" data-toggle="tab">Items</a></li>
+            <li role="presentation"><a href="#order" aria-controls="order" role="tab" data-toggle="tab">Orders</a></li>
         </ul>
 
         <!-- Tab panes -->
@@ -37,45 +44,76 @@
                         <th>Price</th>
                         <th>Action</th>
                     </tr>
+                </table>
+            </div>
+            <div role="tabpanel" class="tab-pane fade" id="order">
+                <table class="table table-hover table-responsive" id="orderList">
+                    <tr>
+                        <th>#</th>
+                        <th>Username</th>
+                        <th>Customer Name</th>
+                        <th>Address</th>
+                        <th>Email</th>
+                        <th>Phone Number</th>
+                        <th>Note</th>
+                        <th>Purchased Date</th>
+                    </tr>
 
                 </table>
             </div>
-
         </div>
-
     </div>
+</div>
 
-    <div id="confirmDelete" class="modal fade" tabindex="-1" role="dialog">
-        <div id="1" class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Confirm delete item!!!</h4>
-                </div>
-                <div class="modal-body">
-                    You want to delete this item?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal" id="btnNo">No</button>
-                    <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnYes">Yes</button>
-                </div>
+<div id="confirmDelete" class="modal fade" tabindex="-1" role="dialog">
+    <div id="1" class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Confirm delete item!!!</h4>
+            </div>
+            <div class="modal-body">
+                You want to delete this item?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal" id="btnNo">No</button>
+                <button type="button" class="btn btn-danger" data-dismiss="modal" id="btnYes">Yes</button>
             </div>
         </div>
     </div>
+</div>
 
-    <div id="deleteResult" class="modal fade" tabindex="-1" role="dialog">
-        <div id="1" class="modal-dialog modal-sm" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title">Alert!!!</h4>
-                </div>
-                <div class="modal-body">
+<div id="deleteResult" class="modal fade" tabindex="-1" role="dialog">
+    <div id="1" class="modal-dialog modal-sm" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Alert!!!</h4>
+            </div>
+            <div class="modal-body">
 
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="orderDetail" class="modal fade" tabindex="-1" role="dialog">
+    <div id="1" class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">Order Details</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table table-responsive">
+   
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
             </div>
         </div>
     </div>
@@ -94,9 +132,7 @@
             });
         }
         function Delete(id) {
-
             var item = {};
-
             item.url = "http://localhost:49403/api/items/" + id;
             item.type = "DELETE";
             item.dataType = "html";
@@ -122,7 +158,6 @@
             $.ajax(item);
         }
         function LoadItem() {
-
             var options = {};
             options.url = "http://localhost:49403/api/items";
             options.type = "GET";
@@ -135,9 +170,60 @@
                 });
             };
             options.error = function () {
-                $("#msg").html("Error while calling the Web API!");
+                Console.log("Error while calling the Web API!");
             };
             $.ajax(options);
+        }
+
+        function LoadOrder() {
+            var options = {};
+            options.url = "http://localhost:49403/api/order";
+            options.type = "GET";
+            options.dataType = "json";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (data) {
+                var count = 1;
+                data.forEach(function (element) {
+                    
+                    var d = element.purchasedDate;
+                    d = d.split('T')[0];
+                    $("#orderList").append('<tr onclick="showDetails(' + element.orderID + ')"><td>' + count + '</td><td>' + element.username + '</td><td>' + element.name + '</td><td>' + element.address + '</td><td>' + element.email + '</td><td>' + element.phoneNumber + '</td><td>' + element.note + '</td><td>' + d+'</td></tr>');
+                    count++;
+                });
+            };
+            options.error = function () {
+                Console.log("Error while calling the Web API!");
+            };
+            $.ajax(options);
+        }
+        function showDetails(orderID) {
+            var options = {};
+            options.url = "http://localhost:49403/api/order/details/"+orderID;
+            options.type = "GET";
+            options.dataType = "json";
+            options.crossDomain = true;
+            options.xhrFields = {
+                withCredentials: true
+            };
+            options.success = function (data) {
+                var total = 0;
+                $("#orderDetail .modal-body table").empty();
+                $("#orderDetail .modal-body table").append('<tr><th>Item Name</th><th>Price(each)</th><th>Quantity</th></tr>');
+                data.forEach(function (element) {
+                    $("#orderDetail .modal-body table").append('<tr><td>' + element.itemName + '</td><td>' + element.price + ' USD</td><td>' + element.quantity + '</td></tr>');
+                    total += (element.price * element.quantity);
+                });
+                $("#orderDetail .modal-body table").append('<tr id="total"><td>Total</td><td></td><td>'+total+' USD</td></tr>');
+                $("#orderDetail").modal('show');
+            };
+            options.error = function () {
+                Console.log("Error while calling the Web API!");
+            };
+            $.ajax(options);
+
         }
         $(document).ready(function () {
             var options = {};
@@ -150,6 +236,7 @@
             options.success = function (data) {
                 $("#showField").removeClass("hidden");
                 LoadItem();
+                LoadOrder();
             };
             options.error = function () {
                 alert("Unauthorized!!! Please log in");
